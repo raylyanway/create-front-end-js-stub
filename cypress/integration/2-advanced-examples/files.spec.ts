@@ -5,7 +5,7 @@
 // const requiredExample = require("../../fixtures/example");
 import requiredExample from "../../fixtures/example.json";
 
-context("Files", () => {
+context.skip("Files", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/commands/files");
   });
