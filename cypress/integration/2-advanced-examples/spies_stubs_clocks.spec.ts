@@ -2,7 +2,7 @@
 // remove no check once Cypress.sinon is typed
 // https://github.com/cypress-io/cypress/issues/6720
 
-context("Spies, Stubs, and Clock", () => {
+context.skip("Spies, Stubs, and Clock", () => {
   it("cy.spy() - wrap a method in a spy", () => {
     // https://on.cypress.io/spy
     cy.visit("https://example.cypress.io/commands/spies-stubs-clocks");
