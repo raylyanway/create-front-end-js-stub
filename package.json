@@ -1,5 +1,5 @@
 {
-  "name": "english-parser",
+  "name": "stub",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,7 +23,8 @@
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "pre-commit-lint": "yarn lint-staged"
   },
   "eslintConfig": {
     "extends": [
