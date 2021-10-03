@@ -45,7 +45,7 @@ context.skip("Cypress.Commands", () => {
   });
 });
 
-context("Cypress.Cookies", () => {
+context.skip("Cypress.Cookies", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -82,7 +82,7 @@ context("Cypress.Cookies", () => {
   });
 });
 
-context("Cypress.arch", () => {
+context.skip("Cypress.arch", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -93,7 +93,7 @@ context("Cypress.arch", () => {
   });
 });
 
-context("Cypress.config()", () => {
+context.skip("Cypress.config()", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -123,7 +123,7 @@ context("Cypress.config()", () => {
   });
 });
 
-context("Cypress.dom", () => {
+context.skip("Cypress.dom", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -139,7 +139,7 @@ context("Cypress.dom", () => {
   });
 });
 
-context("Cypress.env()", () => {
+context.skip("Cypress.env()", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -171,7 +171,7 @@ context("Cypress.env()", () => {
   });
 });
 
-context("Cypress.log", () => {
+context.skip("Cypress.log", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -181,7 +181,7 @@ context("Cypress.log", () => {
   });
 });
 
-context("Cypress.platform", () => {
+context.skip("Cypress.platform", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -192,7 +192,7 @@ context("Cypress.platform", () => {
   });
 });
 
-context("Cypress.version", () => {
+context.skip("Cypress.version", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
@@ -203,7 +203,7 @@ context("Cypress.version", () => {
   });
 });
 
-context("Cypress.spec", () => {
+context.skip("Cypress.spec", () => {
   beforeEach(() => {
     cy.visit("https://example.cypress.io/cypress-api");
   });
