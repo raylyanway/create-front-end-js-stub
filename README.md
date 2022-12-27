@@ -70,8 +70,7 @@ Add files in the root of the project:
 - .eslintrc
 ```
 {
-  "extends": ["react-app", "react-app/jest", "prettier"],
-  "plugins": ["plugin:prettier/recommended"]
+  "extends": ["react-app", "react-app/jest", "prettier"]
 }
 ```
 
