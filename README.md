@@ -34,7 +34,7 @@ Set vscode settings:
 
 Move dev dependency:
 
-`npm i -D "@testing-library/jest-dom" "@testing-library/react" "@testing-library/user-event" "@types/jest" "@types/node" "@types/react" "@types/react-dom" "typescript" "web-vitals"`
+`npm i -D @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/jest @types/node @types/react @types/react-dom typescript web-vitals`
 
 # Install prettier
 
