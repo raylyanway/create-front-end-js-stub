@@ -151,8 +151,12 @@ Run Cypress for install process:
 
 `npm run cy:open`
 
-In open window choose testing type then choose browser and run some test.
-It will create folder structure for Cypress in your project.
+In open window:
+- choose `E2E Testing` for configuration. Follow the steps.
+- on `Choose a browser` step click `Switch testing type` to return back.
+- choose `Component Testing` for configuration. Follow the steps.
+
+The steps above will create folder structure for Cypress in your project.
 
 Add in `cypress.config.ts` file:
 ```
