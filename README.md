@@ -155,6 +155,7 @@ In open window:
 - choose `E2E Testing` for configuration. Follow the steps.
 - on `Choose a browser` step click `Switch testing type` to return back.
 - choose `Component Testing` for configuration. Follow the steps.
+- close the window.
 
 The steps above will create folder structure for Cypress in your project.
 
