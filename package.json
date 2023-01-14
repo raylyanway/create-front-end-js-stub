@@ -27,10 +27,10 @@
   "scripts": {
     "test": "cross-env FORCE_COLOR=true jest",
     "format": "npm run prettier:fix && npm run lint:fix",
-    "lint": "npx eslint src",
+    "lint": "npx eslint .",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install",
-    "prettier": "npx prettier src --check",
+    "prettier": "npx prettier . --check",
     "prettier:fix": "npm run prettier -- --write"
   },
   "dependencies": {
@@ -39,10 +39,9 @@
     "yargs": "^17.6.2"
   },
   "devDependencies": {
-    "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.18",
     "cross-env": "^7.0.3",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "husky": "^8.0.2",
     "jest": "^27.5.1",

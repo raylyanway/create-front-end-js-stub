@@ -1,10 +1,12 @@
 # Preparation
 
 Install:
+
 - [Code editor](https://code.visualstudio.com/)
 - [Nodejs LTS version](https://nodejs.org/en/)
 
 Set vscode extensions (just copy/paste all rows below in search bar):
+
 ```
 dbaeumer.vscode-eslint
 esbenp.prettier-vscode
@@ -16,6 +18,7 @@ yzhang.markdown-all-in-one
 ```
 
 Set vscode settings:
+
 ```
 {
   // Runs Prettier, then ESLint
@@ -41,6 +44,7 @@ Move dev dependency:
 `npm i -D prettier eslint-config-prettier`
 
 Add in `package.json` file:
+
 ```
 "scripts": {
   "lint": "npx eslint src",
@@ -52,6 +56,7 @@ Add in `package.json` file:
 ```
 
 Delete from `package.json` file:
+
 ```
 "eslintConfig": {
   "extends": [
@@ -62,12 +67,15 @@ Delete from `package.json` file:
 ```
 
 Add files in the root of the project:
+
 - .prettierrc
+
 ```
 {}
 ```
 
 - .eslintrc
+
 ```
 {
   "extends": ["react-app", "react-app/jest", "prettier"]
@@ -75,6 +83,7 @@ Add files in the root of the project:
 ```
 
 - .prettierignore
+
 ```
 # Ignore artifacts:
 build
@@ -86,6 +95,7 @@ coverage
 `npm i -D eslint-plugin-simple-import-sort`
 
 Add in `.eslintrc` file:
+
 ```
 {
   "plugins": ["simple-import-sort", "import"],
@@ -131,6 +141,7 @@ Add in `.eslintrc` file:
 `npm i -D cypress @testing-library/cypress @frsource/cypress-plugin-visual-regression-diff eslint-plugin-cypress @cypress/code-coverage @cypress/instrument-cra cross-env start-server-and-test`
 
 Add in `package.json` file:
+
 ```
 "scripts": {
   "cy:server": "cross-env NODE_ENV=test BROWSER=none react-scripts -r @cypress/instrument-cra start",
@@ -142,6 +153,7 @@ Add in `package.json` file:
 ```
 
 Add in `.gitignore` file:
+
 ```
 /.nyc_output
 ```
@@ -151,6 +163,7 @@ Run Cypress for install process:
 `npm run cy:open`
 
 In open window:
+
 - choose `E2E Testing` for configuration. Follow the steps.
 - on `Choose a browser` step click `Switch testing type` to return back.
 - choose `Component Testing` for configuration. Follow the steps.
@@ -159,6 +172,7 @@ In open window:
 The steps above will create folder structure for Cypress in your project.
 
 Add in `cypress.config.ts` file:
+
 ```
 import codeCoverage from "@cypress/code-coverage/task";
 import { initPlugin } from "@frsource/cypress-plugin-visual-regression-diff/plugins";
@@ -195,7 +209,9 @@ export default defineConfig({
 ```
 
 Add files in `cypress` folder:
+
 - `.eslintrc`
+
 ```
 {
   "extends": ["plugin:cypress/recommended"]
@@ -203,6 +219,7 @@ Add files in `cypress` folder:
 ```
 
 - `tsconfig.json`
+
 ```
 {
   "compilerOptions": {
@@ -215,6 +232,7 @@ Add files in `cypress` folder:
 ```
 
 Add in `cypress/support/commands.ts` file:
+
 ```
 import "@frsource/cypress-plugin-visual-regression-diff";
 import "@cypress/code-coverage/support";
@@ -233,6 +251,7 @@ import "@cypress/code-coverage/support";
 `npx husky add .husky/pre-push "CI=true npm test && npm run cy"`
 
 Add file `.lintstagedrc` in the root of the project:
+
 ```
 {
   "src/**/*.{js,jsx,ts,tsx,json,css,md}": "prettier --write --ignore-unknown",
@@ -244,7 +263,7 @@ Add file `.lintstagedrc` in the root of the project:
 # Git
 
 Create a new repository on GitHub.
-Copy HTTPS of the repository. 
+Copy HTTPS of the repository.
 
 `git remote add origin https://github.com/username/reponame.git`
 
