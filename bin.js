@@ -1,24 +1,31 @@
 #!/usr/bin/env node
 
-console.log("Update starts...");
-console.log(333);
+import chalk from "chalk";
+import { exec, execSync } from "child_process";
+import cliProgress from "cli-progress";
+import fs from "fs-extra";
+import os from "os";
+import path from "path";
+import process from "process";
+import yargs from "yargs";
+import { hideBin } from "yargs/helpers";
 
-const fs = require("fs-extra");
-const path = require("path");
-const os = require("os");
-const execSync = require("child_process").execSync;
-const yargs = require("yargs");
-const cliProgress = require("cli-progress");
-// const packageJson = require("./package.json");
-
-if (yargs.argv["_"].length === 0) {
+const argv = yargs(hideBin(process.argv)).argv;
+if (argv["_"].length === 0) {
   console.error("set project names");
   process.exit(1);
 }
-const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-bar1.start(200, 0);
 
-const projectName = yargs.argv["_"][0];
+const bar1 = new cliProgress.SingleBar(
+  {
+    hideCursor: true,
+    barCompleteChar: "\u2588",
+  },
+  cliProgress.Presets.shades_classic
+);
+bar1.start(100, 0);
+
+const projectName = argv["_"][0];
 const root = path.resolve(projectName);
 const prettierConfig = "{}";
 const prettierIgnoreConfig = "# Ignore artifacts:\nbuild\ncoverage";
@@ -64,22 +71,45 @@ const eslintConfig = `{
 
 function install() {
   try {
-    execSync(`npx create-react-app ${projectName} --template typescript`);
-    updatePackageJson();
-    createAdditionalFiles();
+    const intervalId = updateProgress({ max: 90 });
+    exec(`npx create-react-app ${projectName} --template typescript`, () => {
+      clearInterval(intervalId);
+      const intervalId1 = updateProgress({ start: 91, max: 95 });
+      updatePackageJson();
+      clearInterval(intervalId1);
+      const intervalId2 = updateProgress({ start: 96, max: 100 });
+      createAdditionalFiles();
+      clearInterval(intervalId2);
+      bar1.update(100);
+      bar1.stop();
+      console.log(`${chalk.cyan("Configuration is completed.")}`);
+    });
   } catch (e) {
     return;
   }
 }
 
-function updatePackageJson() {
-  bar1.update(100);
-  console.log(333);
-  const packageJson = fs.readFileSync(path.join(root, "package.json"), "utf8");
-  console.log(11, packageJson);
+function updateProgress({ max = 100, start = 0, step = 1 }) {
+  let current = start;
+  bar1.update(current);
 
-  packageJson.scripts = {
-    ...packageJson.scripts,
+  const intervalId = setInterval(() => {
+    current += step;
+    bar1.update(current);
+    if (current === max) {
+      clearInterval(intervalId);
+    }
+  }, 1000);
+
+  return intervalId;
+}
+
+function updatePackageJson() {
+  const packageJson = fs.readFileSync(path.join(root, "package.json"), "utf8");
+  const packageJsonObject = JSON.parse(packageJson);
+
+  packageJsonObject.scripts = {
+    ...packageJsonObject.scripts,
     cy: "start-server-and-test cy:server 3000 cy:run",
     "cy:dev": "start-server-and-test cy:server 3000 cy:open",
     "cy:open": "cypress open",
@@ -94,18 +124,17 @@ function updatePackageJson() {
     "prettier:fix": "npm run prettier -- --write",
   };
 
-  if (packageJson.eslintConfig) {
-    delete packageJson.eslintConfig;
+  if (packageJsonObject.eslintConfig) {
+    delete packageJsonObject.eslintConfig;
   }
 
   fs.writeFileSync(
     path.join(root, "package.json"),
-    JSON.stringify(packageJson, null, 2) + os.EOL
+    JSON.stringify(packageJsonObject, null, 2) + os.EOL
   );
 }
 
 function createAdditionalFiles() {
-  bar1.update(200);
   fs.writeFileSync(path.join(root, ".prettierrc"), prettierConfig + os.EOL);
 
   fs.writeFileSync(path.join(root, ".eslintrc"), eslintConfig + os.EOL);
@@ -119,6 +148,3 @@ function createAdditionalFiles() {
 }
 
 install();
-
-bar1.stop();
-console.log("Update finished.");
