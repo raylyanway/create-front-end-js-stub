@@ -69,20 +69,41 @@ const eslintConfig = `{
   ]
 }`;
 
-function install() {
+function run() {
   try {
-    const intervalId = updateProgress({ max: 90 });
+    const intervalId = updateProgress({ max: 70 });
     exec(`npx create-react-app ${projectName} --template typescript`, () => {
       clearInterval(intervalId);
-      const intervalId1 = updateProgress({ start: 91, max: 95 });
-      updatePackageJson();
-      clearInterval(intervalId1);
-      const intervalId2 = updateProgress({ start: 96, max: 100 });
-      createAdditionalFiles();
-      clearInterval(intervalId2);
-      bar1.update(100);
-      bar1.stop();
-      console.log(`${chalk.cyan("Configuration is completed.")}`);
+      const intervalId1 = updateProgress({ start: 71, max: 90 });
+      exec(
+        `npm --prefix ./${projectName}/ i -D @testing-library/jest-dom @testing-library/react ` +
+          "@testing-library/user-event @types/jest @types/node @types/react " +
+          "@types/react-dom typescript web-vitals prettier eslint-config-prettier " +
+          "eslint-plugin-simple-import-sort cypress @testing-library/cypress " +
+          "@frsource/cypress-plugin-visual-regression-diff eslint-plugin-cypress " +
+          "@cypress/code-coverage @cypress/instrument-cra cross-env " +
+          "start-server-and-test husky",
+        () => {
+          clearInterval(intervalId1);
+          const intervalId2 = updateProgress({ start: 91, max: 95 });
+          updatePackageJson();
+          clearInterval(intervalId2);
+          const intervalId3 = updateProgress({ start: 96, max: 98 });
+          createAdditionalFiles();
+          clearInterval(intervalId3);
+          const intervalId4 = updateProgress({ start: 99, max: 100 });
+          process.chdir(`./${projectName}`);
+          execSync("npx husky install");
+          execSync('npx husky add .husky/pre-commit "npm run format"');
+          execSync(
+            'npx husky add .husky/pre-push "CI=true npm test && npm run cy"'
+          );
+          clearInterval(intervalId4);
+          bar1.update(100);
+          bar1.stop();
+          console.log(`${chalk.cyan("Configuration is completed.")}`);
+        }
+      );
     });
   } catch (e) {
     return;
@@ -105,11 +126,14 @@ function updateProgress({ max = 100, start = 0, step = 1 }) {
 }
 
 function updatePackageJson() {
-  const packageJson = fs.readFileSync(path.join(root, "package.json"), "utf8");
-  const packageJsonObject = JSON.parse(packageJson);
+  const packageJsonRow = fs.readFileSync(
+    path.join(root, "package.json"),
+    "utf8"
+  );
+  const packageJson = JSON.parse(packageJsonRow);
 
-  packageJsonObject.scripts = {
-    ...packageJsonObject.scripts,
+  packageJson.scripts = {
+    ...packageJson.scripts,
     cy: "start-server-and-test cy:server 3000 cy:run",
     "cy:dev": "start-server-and-test cy:server 3000 cy:open",
     "cy:open": "cypress open",
@@ -124,13 +148,13 @@ function updatePackageJson() {
     "prettier:fix": "npm run prettier -- --write",
   };
 
-  if (packageJsonObject.eslintConfig) {
-    delete packageJsonObject.eslintConfig;
+  if (packageJson.eslintConfig) {
+    delete packageJson.eslintConfig;
   }
 
   fs.writeFileSync(
     path.join(root, "package.json"),
-    JSON.stringify(packageJsonObject, null, 2) + os.EOL
+    JSON.stringify(packageJson, null, 2) + os.EOL
   );
 }
 
@@ -147,4 +171,4 @@ function createAdditionalFiles() {
   fs.appendFile(path.join(root, ".gitignore"), gitIgnoreConfig + os.EOL);
 }
 
-install();
+run();
