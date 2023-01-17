@@ -19,7 +19,6 @@ if (argv["_"].length === 0) {
 const bar1 = new cliProgress.SingleBar(
   {
     hideCursor: true,
-    barCompleteChar: "\u2588",
   },
   cliProgress.Presets.shades_classic
 );
@@ -68,6 +67,174 @@ const eslintConfig = `{
     }
   ]
 }`;
+const cyComponentName = `describe('ComponentName.cy.ts', () => {
+  it('playground', () => {
+    // cy.mount()
+  })
+})`;
+const cySpec = `describe('empty spec', () => {
+  it('passes', () => {
+    cy.visit('https://example.cypress.io')
+  })
+})`;
+const cyExample = `{
+  "name": "Using fixtures to represent data",
+  "email": "hello@cypress.io",
+  "body": "Fixtures are a great way to mock data for responses to routes"
+}`;
+const cyCommands = `/// <reference types="cypress" />
+// ***********************************************
+// This example commands.ts shows you how to
+// create various custom commands and overwrite
+// existing commands.
+//
+// For more comprehensive examples of custom
+// commands please read more here:
+// https://on.cypress.io/custom-commands
+// ***********************************************
+//
+//
+// -- This is a parent command --
+// Cypress.Commands.add('login', (email, password) => { ... })
+//
+//
+// -- This is a child command --
+// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
+//
+//
+// -- This is a dual command --
+// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
+//
+//
+// -- This will overwrite an existing command --
+// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+//
+// declare global {
+//   namespace Cypress {
+//     interface Chainable {
+//       login(email: string, password: string): Chainable<void>
+//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+//     }
+//   }
+// }
+import "@frsource/cypress-plugin-visual-regression-diff";
+import "@cypress/code-coverage/support";`;
+const cyComponentIndex = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Components App</title>
+  </head>
+  <body>
+    <div data-cy-root></div>
+  </body>
+</html>`;
+const cyComponent = `// ***********************************************************
+// This example support/component.ts is processed and
+// loaded automatically before your test files.
+//
+// This is a great place to put global configuration and
+// behavior that modifies Cypress.
+//
+// You can change the location of this file or turn off
+// automatically serving support files with the
+// 'supportFile' configuration option.
+//
+// You can read more here:
+// https://on.cypress.io/configuration
+// ***********************************************************
+
+// Import commands.js using ES2015 syntax:
+// Alternatively you can use CommonJS syntax:
+// require('./commands')
+import { mount } from "cypress/react18";
+
+import "./commands";
+
+// Augment the Cypress namespace to include type definitions for
+// your custom command.
+// Alternatively, can be defined in cypress/support/component.d.ts
+// with a <reference path="./component" /> at the top of your spec.
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      mount: typeof mount;
+    }
+  }
+}
+
+Cypress.Commands.add("mount", mount);
+
+// Example use:
+// cy.mount(<MyComponent />)
+`;
+const cyE2e = `// ***********************************************************
+// This example support/e2e.ts is processed and
+// loaded automatically before your test files.
+//
+// This is a great place to put global configuration and
+// behavior that modifies Cypress.
+//
+// You can change the location of this file or turn off
+// automatically serving support files with the
+// 'supportFile' configuration option.
+//
+// You can read more here:
+// https://on.cypress.io/configuration
+// ***********************************************************
+
+// Import commands.js using ES2015 syntax:
+import './commands'
+
+// Alternatively you can use CommonJS syntax:
+// require('./commands')`;
+const cyEslintrc = `{
+  "extends": ["plugin:cypress/recommended"]
+}`;
+const cyTsconfig = `{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "node"]
+  },
+  "include": ["**/*.ts"]
+}`;
+const cyCypressConfig = `import codeCoverage from "@cypress/code-coverage/task";
+import { initPlugin } from "@frsource/cypress-plugin-visual-regression-diff/plugins";
+import { defineConfig } from "cypress";
+
+export default defineConfig({
+  video: false,
+  env: {
+    pluginVisualRegressionCleanupUnusedImages: false,
+  },
+  component: {
+    devServer: {
+      framework: "create-react-app",
+      bundler: "webpack",
+    },
+    setupNodeEvents(on, config) {
+      initPlugin(on, config);
+      codeCoverage(on, config);
+
+      return config;
+    },
+  },
+  e2e: {
+    baseUrl: "http://localhost:3000",
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+      initPlugin(on, config);
+      codeCoverage(on, config);
+
+      return config;
+    },
+  },
+});`;
 
 function run() {
   try {
@@ -75,8 +242,9 @@ function run() {
     exec(`npx create-react-app ${projectName} --template typescript`, () => {
       clearInterval(intervalId);
       const intervalId1 = updateProgress({ start: 71, max: 90 });
+      process.chdir(`./${projectName}`);
       exec(
-        `npm --prefix ./${projectName}/ i -D @testing-library/jest-dom @testing-library/react ` +
+        "npm i -D react-scripts @testing-library/jest-dom @testing-library/react " +
           "@testing-library/user-event @types/jest @types/node @types/react " +
           "@types/react-dom typescript web-vitals prettier eslint-config-prettier " +
           "eslint-plugin-simple-import-sort cypress @testing-library/cypress " +
@@ -85,6 +253,11 @@ function run() {
           "start-server-and-test husky",
         () => {
           clearInterval(intervalId1);
+          execSync("npx husky install");
+          execSync('npx husky add .husky/pre-commit "npm run format"');
+          execSync(
+            'npx husky add .husky/pre-push "CI=true npm test && npm run cy"'
+          );
           const intervalId2 = updateProgress({ start: 91, max: 95 });
           updatePackageJson();
           clearInterval(intervalId2);
@@ -92,12 +265,11 @@ function run() {
           createAdditionalFiles();
           clearInterval(intervalId3);
           const intervalId4 = updateProgress({ start: 99, max: 100 });
-          process.chdir(`./${projectName}`);
-          execSync("npx husky install");
-          execSync('npx husky add .husky/pre-commit "npm run format"');
-          execSync(
-            'npx husky add .husky/pre-push "CI=true npm test && npm run cy"'
-          );
+          execSync("npx eslint --fix src");
+          execSync("git config core.autocrlf false");
+          execSync("git add .");
+          execSync('git commit -m "init configuration" -n');
+          execSync("git config core.autocrlf true");
           clearInterval(intervalId4);
           bar1.update(100);
           bar1.stop();
@@ -159,16 +331,61 @@ function updatePackageJson() {
 }
 
 function createAdditionalFiles() {
-  fs.writeFileSync(path.join(root, ".prettierrc"), prettierConfig + os.EOL);
+  fs.outputFileSync(path.join(root, ".prettierrc"), prettierConfig + os.EOL);
 
-  fs.writeFileSync(path.join(root, ".eslintrc"), eslintConfig + os.EOL);
+  fs.outputFileSync(path.join(root, ".eslintrc"), eslintConfig + os.EOL);
 
-  fs.writeFileSync(
+  fs.outputFileSync(
     path.join(root, ".prettierignore"),
     prettierIgnoreConfig + os.EOL
   );
 
-  fs.appendFile(path.join(root, ".gitignore"), gitIgnoreConfig + os.EOL);
+  fs.outputFileSync(
+    path.join(root, "cypress/component/ComponentName.cy.ts"),
+    cyComponentName + os.EOL
+  );
+
+  fs.outputFileSync(
+    path.join(root, "cypress/component/ComponentName.cy.ts"),
+    cyComponentName + os.EOL
+  );
+
+  fs.outputFileSync(path.join(root, "cypress/e2e/spec.cy.ts"), cySpec + os.EOL);
+
+  fs.outputFileSync(
+    path.join(root, "cypress/fixtures/example.json"),
+    cyExample + os.EOL
+  );
+
+  fs.outputFileSync(
+    path.join(root, "cypress/support/commands.ts"),
+    cyCommands + os.EOL
+  );
+
+  fs.outputFileSync(
+    path.join(root, "cypress/support/component-index.html"),
+    cyComponentIndex + os.EOL
+  );
+
+  fs.outputFileSync(
+    path.join(root, "cypress/support/component.ts"),
+    cyComponent + os.EOL
+  );
+
+  fs.outputFileSync(path.join(root, "cypress/support/e2e.ts"), cyE2e + os.EOL);
+
+  fs.outputFileSync(path.join(root, "cypress/.eslintrc"), cyEslintrc + os.EOL);
+
+  fs.outputFileSync(
+    path.join(root, "cypress/tsconfig.json"),
+    cyTsconfig + os.EOL
+  );
+  fs.outputFileSync(
+    path.join(root, "cypress.config.ts"),
+    cyCypressConfig + os.EOL
+  );
+
+  fs.appendFileSync(path.join(root, ".gitignore"), gitIgnoreConfig + os.EOL);
 }
 
 run();
