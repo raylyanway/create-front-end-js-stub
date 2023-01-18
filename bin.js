@@ -10,7 +10,7 @@ import process from "process";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 
-import { dependencies, files, npmScripts } from "./constans";
+import { dependencies, files, npmScripts } from "./constans.js";
 
 const argv = yargs(hideBin(process.argv)).argv;
 if (argv["_"].length === 0) {
