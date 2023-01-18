@@ -1,12 +1,22 @@
-# Auto installation
+# create-front-end-js-stub
+
+This package helps to configure a front-end stub app.
+Based on create-react-app it configure:
+
+- formatter (Prettier)
+- linter, import / export sorting (Eslint)
+- e2e testing, visual snapshots, coverage (Cypress)
+- pre-commit / pre-push hooks (Husky)
+
+## Auto installation
 
 Run command:
 
 `npx create-front-end-js-stub <projectName>`
 
-# Manual installation
+## Manual installation
 
-## Preparation
+### Preparation
 
 Install:
 
@@ -39,7 +49,7 @@ Set vscode settings:
 }
 ```
 
-## Create new project
+### Create new project
 
 `npx create-react-app name-of-your-app --template typescript`
 
@@ -47,7 +57,7 @@ Move dev dependency:
 
 `npm i -D react-scripts @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/jest @types/node @types/react @types/react-dom typescript web-vitals`
 
-## Install prettier
+### Install prettier
 
 `npm i -D prettier eslint-config-prettier`
 
@@ -98,7 +108,7 @@ build
 coverage
 ```
 
-## Add import sort plugin
+### Add import sort plugin
 
 `npm i -D eslint-plugin-simple-import-sort`
 
@@ -144,7 +154,7 @@ Add in `.eslintrc` file:
 }
 ```
 
-## Add Cypress:
+### Add Cypress:
 
 `npm i -D cypress @testing-library/cypress @frsource/cypress-plugin-visual-regression-diff eslint-plugin-cypress @cypress/code-coverage @cypress/instrument-cra cross-env start-server-and-test`
 
@@ -246,7 +256,7 @@ import "@frsource/cypress-plugin-visual-regression-diff";
 import "@cypress/code-coverage/support";
 ```
 
-## Add Git hooks
+### Add Git hooks
 
 `npm i -D husky`
 
@@ -258,7 +268,7 @@ import "@cypress/code-coverage/support";
 
 `npx husky add .husky/pre-push "CI=true npm test && npm run cy"`
 
-## Git
+### Git
 
 Create a new repository on GitHub.
 Copy HTTPS of the repository.
