@@ -1,4 +1,12 @@
-# Preparation
+# Auto installation
+
+Run command:
+
+`npx create-front-end-js-stub <projectName>`
+
+# Manual installation
+
+## Preparation
 
 Install:
 
@@ -31,15 +39,15 @@ Set vscode settings:
 }
 ```
 
-# Create new project
+## Create new project
 
 `npx create-react-app name-of-your-app --template typescript`
 
 Move dev dependency:
 
-`npm i -D @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/jest @types/node @types/react @types/react-dom typescript web-vitals`
+`npm i -D react-scripts @testing-library/jest-dom @testing-library/react @testing-library/user-event @types/jest @types/node @types/react @types/react-dom typescript web-vitals`
 
-# Install prettier
+## Install prettier
 
 `npm i -D prettier eslint-config-prettier`
 
@@ -90,7 +98,7 @@ build
 coverage
 ```
 
-# Add import sort plugin
+## Add import sort plugin
 
 `npm i -D eslint-plugin-simple-import-sort`
 
@@ -136,7 +144,7 @@ Add in `.eslintrc` file:
 }
 ```
 
-# Add Cypress:
+## Add Cypress:
 
 `npm i -D cypress @testing-library/cypress @frsource/cypress-plugin-visual-regression-diff eslint-plugin-cypress @cypress/code-coverage @cypress/instrument-cra cross-env start-server-and-test`
 
@@ -238,29 +246,19 @@ import "@frsource/cypress-plugin-visual-regression-diff";
 import "@cypress/code-coverage/support";
 ```
 
-# Add Git hooks
+## Add Git hooks
 
-`npm i -D husky lint-staged`
+`npm i -D husky`
 
 `npx husky install`
 
 `npm pkg set scripts.prepare="husky install"`
 
-`npx husky add .husky/pre-commit "npx lint-staged"`
+`npx husky add .husky/pre-commit "npm run format"`
 
 `npx husky add .husky/pre-push "CI=true npm test && npm run cy"`
 
-Add file `.lintstagedrc` in the root of the project:
-
-```
-{
-  "src/**/*.{js,jsx,ts,tsx,json,css,md}": "prettier --write --ignore-unknown",
-  "src/**/*.{js,jsx,ts,tsx,json}": "eslint",
-  "src/**/*.css": "prettier --write"
-}
-```
-
-# Git
+## Git
 
 Create a new repository on GitHub.
 Copy HTTPS of the repository.
