@@ -45,7 +45,7 @@ const cyComponentName = `describe('ComponentName.cy.ts', () => {
 })`;
 const cySpec = `describe('empty spec', () => {
   it('passes', () => {
-    cy.visit('https://example.cypress.io')
+    cy.visit("/");
   })
 })`;
 const cyExample = `{
@@ -231,6 +231,14 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 `;
+const huskyPreCommit = `#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run format`;
+const huskyPrePush = `#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+CI=true npm test && npm run cy`;
 export const files = [
   {
     file: ".prettierrc",
@@ -287,6 +295,14 @@ export const files = [
   {
     file: ".gitignore",
     content: gitIgnoreConfig,
+  },
+  {
+    file: ".husky/pre-commit",
+    content: huskyPreCommit,
+  },
+  {
+    file: ".husky/pre-push",
+    content: huskyPrePush,
   },
 ];
 export const npmScripts = {
