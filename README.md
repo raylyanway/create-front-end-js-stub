@@ -14,6 +14,16 @@ Run command:
 
 `npx create-front-end-js-stub <projectName>`
 
+### Troubleshooting
+
+`npx` has an interesting behavior. It keeps a cache of an `npm` package installed once.
+Even if the `npm` package was with an error, you can't update it with the correct one.
+That's why it is recommended to use [node-clear-npx-cache](https://github.com/return-0x0/node-clear-npx-cache) if you run into some problems using `npx create-front-end-js-stub <projectName>`.
+
+`npx clear-npx-cache`
+
+`npx create-front-end-js-stub <projectName>`
+
 ## Manual installation
 
 ### Preparation
