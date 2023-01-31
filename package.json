@@ -22,7 +22,8 @@
     "url": "https://github.com/raylyanway/create-front-end-js-stub/issues"
   },
   "files": [
-    "bin.js"
+    "bin.js",
+    "constants.js"
   ],
   "bin": "./bin.js",
   "scripts": {
