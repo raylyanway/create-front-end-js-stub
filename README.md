@@ -21,7 +21,8 @@ Run command:
 Install:
 
 - [Code editor](https://code.visualstudio.com/)
-- [Nodejs LTS version](https://nodejs.org/en/)
+- [Nodejs v16.19.0 LTS version](https://nodejs.org/en/). To get v16.19.0 use [nvm](https://github.com/nvm-sh/nvm)
+- [Git](https://git-scm.com/)
 
 Set vscode extensions (just copy/paste all rows below in search bar):
 
