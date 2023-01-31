@@ -18,6 +18,22 @@ if (argv["_"].length === 0) {
 
   process.exit(1);
 }
+try {
+  execSync("git config --global --get user.name");
+} catch {
+  console.log(`${chalk.red("Set user name for your git global config.")}`);
+  console.log(`${chalk.yellow("git config --global user.name 'Your Name'")}`);
+
+  process.exit(1);
+}
+try {
+  execSync("git config --global --get user.email");
+} catch {
+  console.log(`${chalk.red("Set user email for your git global config.")}`);
+  console.log(`${chalk.yellow("git config --global user.email 'Your email'")}`);
+
+  process.exit(1);
+}
 
 const progress = new cliProgress.SingleBar(
   {
@@ -75,8 +91,6 @@ function createAdditionalFiles() {
   const intervalId = updateProgress({ start: 90, max: 95 });
 
   execSync("npx husky install");
-  execSync('npx husky add .husky/pre-commit "npm run format"');
-  execSync('npx husky add .husky/pre-push "CI=true npm test && npm run cy"');
 
   files.forEach(({ file, content }) =>
     fs.outputFileSync(path.join(root, file), content + os.EOL)
