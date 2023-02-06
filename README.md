@@ -10,14 +10,45 @@ Based on create-react-app it configure:
 
 ## Auto installation
 
+To configure VScode check ["Preparation"](#preparation) section below.
+
 Run command:
 
 `npx create-front-end-js-stub <projectName>`
 
-### Troubleshooting
+`cd <projectName>`
+
+`npm start`
+
+## Troubleshooting
+
+### 1) Cypress doesn't run when "npm run cy:dev" or "npm run cy"
+
+Unfortunately, [start-server-and-test](https://github.com/bahmutov/start-server-and-test) doesn't work good with latest Node.js v.18.13.0.
+With Node.js v.16.19.0 Cypress will run.
+
+I wrote about it in gitHub [issues](https://github.com/bahmutov/start-server-and-test/issues/287#issuecomment-1409659567) to Gleb Bahmutov.
+
+Solution:
+
+You can work with Node.js v.16.19.0. To get v16.19.0 use [nvm](https://github.com/nvm-sh/nvm).
+
+Or:
+
+`npm run cy:server`
+
+then in another terminal window run one of these:
+
+- with UI: `npm run cy:open`
+- in terminal: `npm run cy`
+
+### 2) NPX cache
 
 `npx` has an interesting behavior. It keeps a cache of an `npm` package installed once.
 Even if the `npm` package was with an error, you can't update it with the correct one.
+
+Solution:
+
 That's why it is recommended to use [node-clear-npx-cache](https://github.com/return-0x0/node-clear-npx-cache) if you run into some problems using `npx create-front-end-js-stub <projectName>`.
 
 `npx clear-npx-cache`
@@ -26,7 +57,7 @@ That's why it is recommended to use [node-clear-npx-cache](https://github.com/re
 
 ## Manual installation
 
-### Preparation
+### Preparation <a name="preparation"></a>
 
 Install:
 
