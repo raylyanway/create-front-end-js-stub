@@ -8,6 +8,8 @@ Based on create-react-app it configure:
 - e2e testing, visual snapshots, coverage (Cypress)
 - pre-commit / pre-push hooks (Husky)
 
+An example of final result is [here](https://github.com/raylyanway/front-end-js-stub).
+
 ## Auto installation
 
 To configure VScode check ["Preparation"](#preparation) section below.
